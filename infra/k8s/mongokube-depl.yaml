@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongokube
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongokube
+  template:
+    metadata:
+      labels:
+        app: mongokube
+    spec:
+      containers:
+        - name: mongokube
+          image: lokilokesh/mongokube    
+
+---
+
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: mongokube-srv
+# spec:
+#   selector:
+#     app: mongokube
+#   type: ClusterIP
+#   ports:
+#   - name: mongokube
+#     port: 3030
+#     targetPort: 3030
+
+# ---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongokube-srv
+spec:
+  type: NodePort
+  selector:
+    app: mongokube
+  ports:
+    - name: mongokube
+      port: 3032
+      protocol: TCP
+      targetPort: 3032
